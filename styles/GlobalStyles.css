@@ -1,0 +1,522 @@
+/* Worcester Watch - Centralized CSS Styles */
+
+/* ===== DESIGN SYSTEM VARIABLES ===== */
+:root {
+  /* Colors */
+  --primary: #1E40AF;
+  --emergency: #DC2626;
+  --success: #059669;
+  --neutral: #1F2937;
+  --neutral-light: #6B7280;
+  --neutral-lighter: #9CA3AF;
+  --neutral-lightest: #F3F4F6;
+  --background: #000000;
+  --background-light: #111827;
+  --surface: #FFFFFF;
+  --white: #FFFFFF;
+  --black: #000000;
+  
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #E5E7EB;
+  --text-tertiary: #9CA3AF;
+  --text-inverse: #1F2937;
+  
+  /* Status Colors */
+  --status-active: #DC2626;
+  --status-resolved: #059669;
+  --status-pending: #D97706;
+  
+  /* Typography */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  
+  /* Spacing (8pt grid) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== LAYOUT COMPONENTS ===== */
+
+/* Container */
+.container {
+  flex: 1;
+  min-height: 100%;
+  background-color: var(--background);
+  padding: var(--spacing-md);
+}
+
+.scroll-container {
+  flex: 1;
+  min-height: 100%;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  justifyContent: center;
+  alignItems: center;
+  marginBottom: var(--spacing-xl);
+}
+
+.logo-container {
+  width: 80px;
+  height: 80px;
+  borderRadius: var(--radius-2xl);
+  backgroundColor: var(--primary);
+  justifyContent: center;
+  alignItems: center;
+  marginBottom: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.header-title {
+  fontSize: var(--font-size-3xl);
+  fontWeight: bold;
+  color: var(--text-primary);
+  textAlign: center;
+  marginBottom: var(--spacing-xs);
+}
+
+.header-subtitle {
+  fontSize: var(--font-size-lg);
+  color: var(--text-secondary);
+  textAlign: center;
+  marginBottom: var(--spacing-lg);
+}
+
+/* ===== BUTTONS ===== */
+
+.button-primary {
+  backgroundColor: var(--primary);
+  paddingHorizontal: var(--spacing-lg);
+  paddingVertical: var(--spacing-md);
+  borderRadius: var(--radius-lg);
+  minHeight: 48px;
+  justifyContent: center;
+  alignItems: center;
+  box-shadow: var(--shadow-md);
+}
+
+.button-primary-text {
+  color: var(--white);
+  fontSize: var(--font-size-base);
+  fontWeight: 600;
+}
+
+.button-secondary {
+  backgroundColor: var(--background-light);
+  paddingHorizontal: var(--spacing-lg);
+  paddingVertical: var(--spacing-md);
+  borderRadius: var(--radius-lg);
+  minHeight: 48px;
+  justifyContent: center;
+  alignItems: center;
+  borderWidth: 1px;
+  borderColor: var(--neutral-light);
+}
+
+.button-secondary-text {
+  color: var(--text-primary);
+  fontSize: var(--font-size-base);
+  fontWeight: 600;
+}
+
+.button-emergency {
+  backgroundColor: var(--emergency);
+  paddingHorizontal: var(--spacing-lg);
+  paddingVertical: var(--spacing-md);
+  borderRadius: var(--radius-lg);
+  minHeight: 48px;
+  justifyContent: center;
+  alignItems: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.button-emergency-text {
+  color: var(--white);
+  fontSize: var(--font-size-base);
+  fontWeight: 600;
+}
+
+.action-button {
+  backgroundColor: var(--background-light);
+  paddingHorizontal: var(--spacing-md);
+  paddingVertical: var(--spacing-sm);
+  borderRadius: var(--radius-md);
+  minHeight: 44px;
+  justifyContent: center;
+  alignItems: center;
+  borderWidth: 1px;
+  borderColor: var(--neutral-light);
+}
+
+.action-button-text {
+  color: var(--text-primary);
+  fontSize: var(--font-size-sm);
+  fontWeight: 500;
+}
+
+/* ===== CARDS ===== */
+
+.card {
+  backgroundColor: var(--background-light);
+  borderRadius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  marginBottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  flexDirection: row;
+  justifyContent: space-between;
+  alignItems: center;
+  marginBottom: var(--spacing-md);
+}
+
+.card-title {
+  fontSize: var(--font-size-lg);
+  fontWeight: 600;
+  color: var(--text-primary);
+}
+
+.card-subtitle {
+  fontSize: var(--font-size-sm);
+  color: var(--text-secondary);
+  marginTop: var(--spacing-xs);
+}
+
+.emergency-card {
+  backgroundColor: var(--background-light);
+  borderRadius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  marginBottom: var(--spacing-md);
+  borderLeftWidth: 4px;
+  borderLeftColor: var(--emergency);
+  box-shadow: var(--shadow-md);
+}
+
+.emergency-card-resolved {
+  borderLeftColor: var(--success);
+}
+
+.emergency-card-pending {
+  borderLeftColor: var(--status-pending);
+}
+
+/* ===== INPUTS ===== */
+
+.input-container {
+  marginBottom: var(--spacing-md);
+}
+
+.input-label {
+  fontSize: var(--font-size-sm);
+  fontWeight: 500;
+  color: var(--text-primary);
+  marginBottom: var(--spacing-xs);
+}
+
+.input-field {
+  backgroundColor: var(--background-light);
+  borderWidth: 1px;
+  borderColor: var(--neutral-light);
+  borderRadius: var(--radius-lg);
+  paddingHorizontal: var(--spacing-md);
+  paddingVertical: var(--spacing-md);
+  fontSize: var(--font-size-base);
+  color: var(--text-primary);
+  minHeight: 48px;
+}
+
+.input-field-focus {
+  borderColor: var(--primary);
+}
+
+/* ===== STATUS BADGES ===== */
+
+.status-badge {
+  paddingHorizontal: var(--spacing-sm);
+  paddingVertical: var(--spacing-xs);
+  borderRadius: var(--radius-full);
+  alignSelf: flex-start;
+}
+
+.status-badge-active {
+  backgroundColor: var(--status-active);
+}
+
+.status-badge-resolved {
+  backgroundColor: var(--status-resolved);
+}
+
+.status-badge-pending {
+  backgroundColor: var(--status-pending);
+}
+
+.status-badge-text {
+  fontSize: var(--font-size-xs);
+  fontWeight: 600;
+  color: var(--white);
+}
+
+/* ===== ICONS ===== */
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  borderRadius: 20px;
+  backgroundColor: var(--background-light);
+  justifyContent: center;
+  alignItems: center;
+  marginRight: var(--spacing-md);
+}
+
+.icon-container-small {
+  width: 32px;
+  height: 32px;
+  borderRadius: 16px;
+}
+
+.icon-container-large {
+  width: 48px;
+  height: 48px;
+  borderRadius: 24px;
+}
+
+/* ===== LISTS ===== */
+
+.list-item {
+  flexDirection: row;
+  alignItems: center;
+  paddingVertical: var(--spacing-md);
+  borderBottomWidth: 1px;
+  borderBottomColor: var(--background-light);
+}
+
+.list-item-last {
+  borderBottomWidth: 0;
+}
+
+.list-item-content {
+  flex: 1;
+  marginLeft: var(--spacing-md);
+}
+
+.list-item-title {
+  fontSize: var(--font-size-base);
+  fontWeight: 500;
+  color: var(--text-primary);
+  marginBottom: var(--spacing-xs);
+}
+
+.list-item-subtitle {
+  fontSize: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ===== MESSAGE BUBBLES ===== */
+
+.message-bubble {
+  maxWidth: 80%;
+  paddingHorizontal: var(--spacing-md);
+  paddingVertical: var(--spacing-sm);
+  borderRadius: var(--radius-lg);
+  marginBottom: var(--spacing-sm);
+}
+
+.message-bubble-sent {
+  backgroundColor: var(--primary);
+  alignSelf: flex-end;
+  borderBottomRightRadius: var(--radius-sm);
+}
+
+.message-bubble-received {
+  backgroundColor: var(--background-light);
+  alignSelf: flex-start;
+  borderBottomLeftRadius: var(--radius-sm);
+}
+
+.message-text {
+  fontSize: var(--font-size-base);
+  color: var(--text-primary);
+}
+
+.message-time {
+  fontSize: var(--font-size-xs);
+  color: var(--text-tertiary);
+  marginTop: var(--spacing-xs);
+  textAlign: right;
+}
+
+/* ===== NAVIGATION ===== */
+
+.tab-bar {
+  backgroundColor: var(--background-light);
+  borderTopWidth: 1px;
+  borderTopColor: var(--neutral-light);
+  height: 60px;
+  paddingBottom: var(--spacing-sm);
+  paddingTop: var(--spacing-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+.tab-label {
+  fontSize: var(--font-size-xs);
+  fontWeight: 500;
+}
+
+/* ===== LOADING ===== */
+
+.loading-container {
+  flex: 1;
+  justifyContent: center;
+  alignItems: center;
+  backgroundColor: var(--background);
+}
+
+.loading-title {
+  fontSize: var(--font-size-2xl);
+  fontWeight: bold;
+  color: var(--text-primary);
+  marginBottom: var(--spacing-sm);
+}
+
+.loading-subtitle {
+  fontSize: var(--font-size-base);
+  color: var(--text-secondary);
+  textAlign: center;
+  marginBottom: var(--spacing-xl);
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.text-center {
+  textAlign: center;
+}
+
+.text-left {
+  textAlign: left;
+}
+
+.text-right {
+  textAlign: right;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-row {
+  flexDirection: row;
+}
+
+.flex-column {
+  flexDirection: column;
+}
+
+.justify-center {
+  justifyContent: center;
+}
+
+.justify-between {
+  justifyContent: space-between;
+}
+
+.align-center {
+  alignItems: center;
+}
+
+.align-start {
+  alignItems: flex-start;
+}
+
+.align-end {
+  alignItems: flex-end;
+}
+
+.margin-bottom-sm {
+  marginBottom: var(--spacing-sm);
+}
+
+.margin-bottom-md {
+  marginBottom: var(--spacing-md);
+}
+
+.margin-bottom-lg {
+  marginBottom: var(--spacing-lg);
+}
+
+.padding-sm {
+  padding: var(--spacing-sm);
+}
+
+.padding-md {
+  padding: var(--spacing-md);
+}
+
+.padding-lg {
+  padding: var(--spacing-lg);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-sm);
+  }
+  
+  .card {
+    padding: var(--spacing-md);
+  }
+  
+  .header-title {
+    fontSize: var(--font-size-2xl);
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .button-primary {
+    borderWidth: 2px;
+    borderColor: var(--white);
+  }
+  
+  .input-field {
+    borderWidth: 2px;
+  }
+} 
