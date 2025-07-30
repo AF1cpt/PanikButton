@@ -15,78 +15,37 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function SignUpScreen() {
+export default function SignInScreen() {
   const router = useRouter();
-  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { supabase } = require('../../lib/supabase');
 
-  const handleSignUp = async () => {
+  const handleSignIn = async () => {
     setError('');
-    if (!email || !password || !confirmPassword) {
-      setError('Please fill in all required fields.');
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
     setLoading(true);
-    try {
-      // First sign up the user with Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-            phone_number: phone,
-          },
-        },
-      });
-
-      if (error) {
-        setError(error.message);
-        return;
-      }
-
-      if (data?.user) {
-        // Create a profile in the users table
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: data.user.id,
-              email: email,
-              full_name: fullName,
-              phone_number: phone,
-            }
-          ]);
-
-        if (profileError) {
-          console.error('Profile creation error:', profileError);
-          setError('Failed to create user profile: ' + profileError.message);
-          return;
-        }
-
-        router.replace('/(tabs)');
-      } else {
-        setError('Sign up failed.');
-      }
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      setError('An unexpected error occurred: ' + error.message);
-    } finally {
-      setLoading(false);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+      return;
     }
+    if (data?.user) {
+      router.replace('/(tabs)');
+    } else {
+      setError('Invalid credentials.');
+    }
+  };
+
+  const handleSignUp = () => {
+    router.push('/(auth)/sign-up');
   };
 
   return (
@@ -107,25 +66,30 @@ export default function SignUpScreen() {
               <View style={styles.logoContainer}>
                 <Ionicons name="shield-checkmark" size={48} color="#DC2626" />
               </View>
-              <Text style={styles.title}>Create Account</Text>
-              <Text style={styles.subtitle}>Join the Worcester Watch Community</Text>
+              <Text style={styles.title}>Worcester Watch</Text>
+              <Text style={styles.subtitle}>Community Safety Network</Text>
             </View>
 
-            {/* Sign Up Form */}
-            <View style={styles.formContainer}>
-              <View style={styles.inputContainer}>
-                <Ionicons name="person" size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Full Name"
-                  placeholderTextColor="#9CA3AF"
-                  value={fullName}
-                  onChangeText={setFullName}
-                  autoCapitalize="words"
-                  returnKeyType="next"
-                />
+            {/* Trust Indicators */}
+            <View style={styles.trustContainer}>
+              <View style={styles.trustItem}>
+                <Ionicons name="shield-checkmark" size={20} color="#059669" />
+                <Text style={styles.trustText}>Secure & Private</Text>
               </View>
+              <View style={styles.trustItem}>
+                <Ionicons name="people" size={20} color="#059669" />
+                <Text style={styles.trustText}>Community Verified</Text>
+              </View>
+              <View style={styles.trustItem}>
+                <Ionicons name="time" size={20} color="#059669" />
+                <Text style={styles.trustText}>24/7 Active</Text>
+              </View>
+            </View>
 
+            {/* Sign In Form */}
+            <View style={styles.formContainer}>
+              <Text style={styles.formTitle}>Sign In to Your Account</Text>
+              
               <View style={styles.inputContainer}>
                 <Ionicons name="mail" size={20} color="#9CA3AF" style={styles.inputIcon} />
                 <TextInput
@@ -141,19 +105,6 @@ export default function SignUpScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Ionicons name="call" size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Phone number"
-                  placeholderTextColor="#9CA3AF"
-                  value={phone}
-                  onChangeText={setPhone}
-                  keyboardType="phone-pad"
-                  returnKeyType="next"
-                />
-              </View>
-
-              <View style={styles.inputContainer}>
                 <Ionicons name="lock-closed" size={20} color="#9CA3AF" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
@@ -162,7 +113,11 @@ export default function SignUpScreen() {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
-                  returnKeyType="next"
+                  returnKeyType="done"
+                  onSubmitEditing={() => {
+                    Keyboard.dismiss();
+                    if (email && password) handleSignIn();
+                  }}
                 />
                 <TouchableOpacity
                   style={styles.passwordToggle}
@@ -176,53 +131,29 @@ export default function SignUpScreen() {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.inputContainer}>
-                <Ionicons name="lock-closed" size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirm Password"
-                  placeholderTextColor="#9CA3AF"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry={!showConfirmPassword}
-                  returnKeyType="done"
-                  onSubmitEditing={() => {
-                    Keyboard.dismiss();
-                    if (email && password && confirmPassword) handleSignUp();
-                  }}
-                />
-                <TouchableOpacity
-                  style={styles.passwordToggle}
-                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  <Ionicons
-                    name={showConfirmPassword ? "eye-off" : "eye"}
-                    size={20}
-                    color="#9CA3AF"
-                  />
-                </TouchableOpacity>
-              </View>
-
               {error ? (
                 <Text style={styles.errorText}>{error}</Text>
               ) : null}
-
               <TouchableOpacity 
-                style={[styles.signUpButton, loading && styles.signUpButtonDisabled]} 
-                onPress={handleSignUp}
+                style={[styles.signInButton, loading && styles.signInButtonDisabled]} 
+                onPress={handleSignIn} 
                 disabled={loading}
               >
-                <Text style={styles.signUpButtonText}>
-                  {loading ? 'Creating Account...' : 'Create Account'}
+                <Text style={styles.signInButtonText}>
+                  {loading ? 'Signing In...' : 'Sign In'}
                 </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.forgotPassword}>
+                <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Sign In Link */}
-            <View style={styles.signInContainer}>
-              <Text style={styles.signInText}>Already have an account? </Text>
-              <TouchableOpacity onPress={() => router.push('/(auth)')}>
-                <Text style={styles.signInLink}>Sign In</Text>
+            {/* Sign Up Link */}
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signUpText}>Don't have an account? </Text>
+              <TouchableOpacity onPress={handleSignUp}>
+                <Text style={styles.signUpLink}>Sign Up</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -270,8 +201,30 @@ const styles = StyleSheet.create({
     color: '#E5E7EB',
     textAlign: 'center',
   },
+  trustContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 30,
+  },
+  trustItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  trustText: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginTop: 4,
+    textAlign: 'center',
+  },
   formContainer: {
     marginBottom: 30,
+  },
+  formTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 24,
+    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -300,33 +253,41 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
-  signUpButton: {
+  signInButton: {
     backgroundColor: '#DC2626',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
     marginTop: 8,
   },
-  signUpButtonDisabled: {
+  signInButtonDisabled: {
     opacity: 0.7,
   },
-  signUpButtonText: {
+  signInButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
-  signInContainer: {
+  forgotPassword: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  forgotPasswordText: {
+    fontSize: 14,
+    color: '#1E40AF',
+  },
+  signUpContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 'auto',
     paddingTop: 20,
   },
-  signInText: {
+  signUpText: {
     fontSize: 14,
     color: '#9CA3AF',
   },
-  signInLink: {
+  signUpLink: {
     fontSize: 14,
     color: '#1E40AF',
     fontWeight: '600',
